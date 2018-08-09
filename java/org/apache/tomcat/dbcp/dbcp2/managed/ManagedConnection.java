@@ -17,13 +17,13 @@
  */
 package org.apache.tomcat.dbcp.dbcp2.managed;
 
+import org.apache.tomcat.dbcp.dbcp2.DelegatingConnection;
+import org.apache.tomcat.dbcp.pool2.ObjectPool;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import org.apache.tomcat.dbcp.dbcp2.DelegatingConnection;
-import org.apache.tomcat.dbcp.pool2.ObjectPool;
 
 /**
  * ManagedConnection is responsible for managing a database connection in a transactional environment (typically called

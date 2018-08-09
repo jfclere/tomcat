@@ -27,7 +27,7 @@
  * <p>
  * A: There are two primary ways to access the DBCP pool, as a {@link java.sql.Driver Driver}, or as a
  * {@link javax.sql.DataSource DataSource}. You'll want to create an instance of
- * {@link org.apache.tomcat.dbcp.dbcp2.PoolingDriver} or {@link org.apache.tomcat.dbcp.dbcp2.PoolingDataSource}. When using one
+ * {@link org.apache.tomcat.dbcp.dbcp2.PoolingDriver} or {@link org.apache.commons.dbcp2.PoolingDataSource}. When using one
  * of these interfaces, you can just use your JDBC objects the way you normally would. Closing a
  * {@link java.sql.Connection} will simply return it to its pool.
  * </p>
@@ -38,7 +38,8 @@
  * </p>
  * <p>
  * A: The {@link org.apache.tomcat.dbcp.pool2.ObjectPool ObjectPool} interface is defined in Commons Pool. You can use one
- * of the provided implementations such as {@link org.apache.tomcat.dbcp.pool2.impl.GenericObjectPool GenericObjectPool} or
+ * of the provided implementations such as {@link org.apache.tomcat.dbcp.pool2.impl.GenericObjectPool GenericObjectPool},
+ * {@link org.apache.tomcat.dbcp.pool2.proxy.ProxiedObjectPool ProxiedObjectPool} or
  * {@link org.apache.tomcat.dbcp.pool2.impl.SoftReferenceObjectPool SoftReferenceObjectPool} or you can create your own.
  * </p>
  * <p>
@@ -71,7 +72,7 @@
  * {@link java.sql.DriverManager}. You'll want to create a {@link org.apache.tomcat.dbcp.dbcp2.PoolingDataSource}.
  * </p>
  * <p>
- * The {@link org.apache.tomcat.dbcp.dbcp2.PoolingDataSource} uses an underlying {@link org.apache.tomcat.dbcp.pool2.ObjectPool}
+ * The {@link org.apache.tomcat.dbcp.dbcp2.PoolingDataSource} uses an underlying {@link org.apache.commons.pool2.ObjectPool}
  * to create and store its {@link java.sql.Connection}.
  * </p>
  * <p>

@@ -17,11 +17,6 @@
  */
 package org.apache.tomcat.dbcp.dbcp2.managed;
 
-import java.lang.ref.WeakReference;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Objects;
-
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
@@ -29,6 +24,10 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
+import java.lang.ref.WeakReference;
 
 /**
  * TransactionContext represents the association between a single XAConnectionFactory and a Transaction. This context
@@ -67,7 +66,7 @@ public class TransactionContext {
     }
 
     /**
-     * Provided for backwards compatibility
+     * Provided for backwards compatability
      *
      * @param transactionRegistry the TransactionRegistry used to obtain the XAResource for the
      * shared connection
@@ -132,7 +131,7 @@ public class TransactionContext {
     public void addTransactionContextListener(final TransactionContextListener listener) throws SQLException {
         try {
             if (!isActive()) {
-                final Transaction transaction = this.transactionRef.get();
+                Transaction transaction = this.transactionRef.get();
                 listener.afterCompletion(TransactionContext.this,
                         transaction == null ? false : transaction.getStatus() == Status.STATUS_COMMITTED);
                 return;

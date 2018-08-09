@@ -29,9 +29,9 @@ import javax.naming.Reference;
 import javax.naming.StringRefAddr;
 import javax.sql.ConnectionPoolDataSource;
 
+import org.apache.tomcat.dbcp.dbcp2.SwallowedExceptionLogger;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.apache.tomcat.dbcp.dbcp2.SwallowedExceptionLogger;
 import org.apache.tomcat.dbcp.pool2.ObjectPool;
 import org.apache.tomcat.dbcp.pool2.impl.GenericObjectPool;
 

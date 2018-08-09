@@ -186,11 +186,11 @@ public final class DelegatingResultSet extends AbandonedTrace implements ResultS
     public void close() throws SQLException {
         try {
             if (statement != null) {
-                removeThisTrace(statement);
+                ((AbandonedTrace) statement).removeTrace(this);
                 statement = null;
             }
             if (connection != null) {
-                removeThisTrace(connection);
+                ((AbandonedTrace) connection).removeTrace(this);
                 connection = null;
             }
             resultSet.close();
@@ -740,7 +740,7 @@ public final class DelegatingResultSet extends AbandonedTrace implements ResultS
     @Override
     public <T> T getObject(final int columnIndex, final Class<T> type) throws SQLException {
         try {
-            return Jdbc41Bridge.getObject(resultSet, columnIndex, type);
+            return resultSet.getObject(columnIndex, type);
         } catch (final SQLException e) {
             handleException(e);
             return null;
@@ -770,7 +770,7 @@ public final class DelegatingResultSet extends AbandonedTrace implements ResultS
     @Override
     public <T> T getObject(final String columnLabel, final Class<T> type) throws SQLException {
         try {
-            return Jdbc41Bridge.getObject(resultSet, columnLabel, type);
+            return resultSet.getObject(columnLabel, type);
         } catch (final SQLException e) {
             handleException(e);
             return null;
@@ -1242,8 +1242,8 @@ public final class DelegatingResultSet extends AbandonedTrace implements ResultS
     }
 
     @Override
-    public synchronized String toString() {
-        return super.toString() + "[resultSet=" + resultSet + ", statement=" + statement + ", connection=" + connection + "]";
+    public String toString() {
+        return super.toString() + "[_res=" + resultSet + ", _stmt=" + statement + ", _conn=" + connection + "]";
     }
 
     @Override

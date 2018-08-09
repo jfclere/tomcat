@@ -17,16 +17,15 @@
  */
 package org.apache.tomcat.dbcp.dbcp2.managed;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Objects;
+import org.apache.tomcat.dbcp.dbcp2.ConnectionFactory;
 
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-
-import org.apache.tomcat.dbcp.dbcp2.ConnectionFactory;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * An implementation of XAConnectionFactory which manages non-XA connections in XA transactions. A non-XA connection

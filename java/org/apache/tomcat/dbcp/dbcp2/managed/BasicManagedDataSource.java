@@ -17,19 +17,18 @@
  */
 package org.apache.tomcat.dbcp.dbcp2.managed;
 
-import java.sql.SQLException;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp2.ConnectionFactory;
+import org.apache.tomcat.dbcp.dbcp2.PoolableConnection;
+import org.apache.tomcat.dbcp.dbcp2.PoolableConnectionFactory;
+import org.apache.tomcat.dbcp.dbcp2.PoolingDataSource;
 
 import javax.sql.DataSource;
 import javax.sql.XADataSource;
 import javax.transaction.TransactionManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-import org.apache.tomcat.dbcp.dbcp2.ConnectionFactory;
-import org.apache.tomcat.dbcp.dbcp2.PoolableConnection;
-import org.apache.tomcat.dbcp.dbcp2.PoolableConnectionFactory;
-import org.apache.tomcat.dbcp.dbcp2.PoolingDataSource;
-import org.apache.tomcat.dbcp.dbcp2.Utils;
+import java.sql.SQLException;
 
 /**
  * <p>
@@ -64,7 +63,7 @@ public class BasicManagedDataSource extends BasicDataSource {
     /** XA data source instance */
     private XADataSource xaDataSourceInstance;
 
-    /** Transaction Synchronization Registry */
+    /** Transaction Manager */
     private transient TransactionSynchronizationRegistry transactionSynchronizationRegistry;
 
     /**
@@ -190,7 +189,7 @@ public class BasicManagedDataSource extends BasicDataSource {
             }
 
             try {
-                xaDataSourceInstance = (XADataSource) xaDataSourceClass.getConstructor().newInstance();
+                xaDataSourceInstance = (XADataSource) xaDataSourceClass.newInstance();
             } catch (final Exception t) {
                 final String message = "Cannot create XA data source of class '" + xaDataSource + "'";
                 throw new SQLException(message, t);
@@ -199,7 +198,7 @@ public class BasicManagedDataSource extends BasicDataSource {
 
         // finally, create the XAConnectionFactory using the XA data source
         final XAConnectionFactory xaConnectionFactory = new DataSourceXAConnectionFactory(getTransactionManager(),
-                xaDataSourceInstance, getUsername(), Utils.toCharArray(getPassword()), getTransactionSynchronizationRegistry());
+                xaDataSourceInstance, getUsername(), getPassword());
         transactionRegistry = xaConnectionFactory.getTransactionRegistry();
         return xaConnectionFactory;
     }
@@ -240,7 +239,7 @@ public class BasicManagedDataSource extends BasicDataSource {
             connectionFactory.setMaxOpenPreparedStatements(getMaxOpenPreparedStatements());
             connectionFactory.setMaxConnLifetimeMillis(getMaxConnLifetimeMillis());
             connectionFactory.setRollbackOnReturn(getRollbackOnReturn());
-            connectionFactory.setAutoCommitOnReturn(getAutoCommitOnReturn());
+            connectionFactory.setEnableAutoCommitOnReturn(getEnableAutoCommitOnReturn());
             connectionFactory.setDefaultQueryTimeout(getDefaultQueryTimeout());
             connectionFactory.setFastFailValidation(getFastFailValidation());
             connectionFactory.setDisconnectionSqlCodes(getDisconnectionSqlCodes());
