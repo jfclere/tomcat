@@ -89,6 +89,7 @@ trydownload.httpusecaches=true
 base.path=${user.home}/tomcat-build-libs
 
 compile.debug=true
+skip.installer=true
 
 # Do not pass -deprecation (-Xlint:deprecation) flag to javac
 compile.deprecation=false
