@@ -131,7 +131,13 @@ public abstract class AbstractStreamProvider implements StreamProvider {
                 TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
                 trustManagerFactory.init(trustStore);
 
-                return trustManagerFactory.getTrustManagers();
+                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+                for (int j = 0; j < trustManagers.length; j++) {
+                   System.out.println("trustManagers[" + j + "]: " + trustManagers[j]);
+                   trustManagers[j] = new TrustSelfSignedX509TrustManager(trustManagers[j]);
+                   System.out.println("trustManagers[" + j + "]: " + trustManagers[j]);
+                }
+                return trustManagers;
             } catch (FileNotFoundException fnfe) {
                 log.error(sm.getString("abstractStream.fileNotFound", caCertFile));
                 throw fnfe;
