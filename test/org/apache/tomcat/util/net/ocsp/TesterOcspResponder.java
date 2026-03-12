@@ -41,11 +41,16 @@ import org.apache.tomcat.util.net.TesterSupport;
  */
 public class TesterOcspResponder {
 
-    private static List<String> ocspArgs = Arrays.asList("ocsp", "-port", "8888", "-text", "-index",
-            TesterSupport.DB_INDEX, "-CA", TesterSupport.CA_CERT_PEM, "-rkey", TesterSupport.OCSP_RESPONDER_RSA_KEY,
-            "-rsigner", TesterSupport.OCSP_RESPONDER_RSA_CERT, "-nmin", "60");
-
+    private final int port;
     private Process p;
+
+    public TesterOcspResponder() {
+        this(8888);
+    }
+
+    public TesterOcspResponder(int port) {
+        this.port = port;
+    }
 
     public void start() throws IOException {
         if (p != null) {
@@ -62,6 +67,11 @@ public class TesterOcspResponder {
             openSSLLibPath = openSSLPath.substring(0, openSSLPath.lastIndexOf('/'));
             openSSLLibPath = openSSLLibPath + "/../:" + openSSLLibPath + "/../lib:" + openSSLLibPath + "/../lib64";
         }
+
+        List<String> ocspArgs = Arrays.asList("ocsp", "-port", String.valueOf(port), "-text", "-index",
+                TesterSupport.DB_INDEX, "-CA", TesterSupport.CA_CERT_PEM, "-rkey", TesterSupport.OCSP_RESPONDER_RSA_KEY,
+                "-rsigner", TesterSupport.OCSP_RESPONDER_RSA_CERT, "-nmin", "60");
+
         List<String> cmd = new ArrayList<>();
         cmd.add(openSSLPath);
         cmd.addAll(ocspArgs);

@@ -31,14 +31,25 @@ import org.junit.Assert;
  */
 public class TesterOcspResponderNoResponse {
 
+    private static final int DEFAULT_PORT = 8888;
+
+    private final int port;
     private ServerRunnable sr;
+
+    public TesterOcspResponderNoResponse() {
+        this(DEFAULT_PORT);
+    }
+
+    public TesterOcspResponderNoResponse(int port) {
+        this.port = port;
+    }
 
     public void start() {
         if (sr != null) {
             throw new IllegalStateException("Already started");
         }
 
-        sr = new ServerRunnable();
+        sr = new ServerRunnable(port);
         Thread t = new Thread(sr);
         t.start();
 
@@ -55,14 +66,19 @@ public class TesterOcspResponderNoResponse {
 
     private static class ServerRunnable implements Runnable {
 
+        private final int port;
         private volatile boolean alive = true;
         private volatile ServerSocket serverSocket;
+
+        ServerRunnable(int port) {
+            this.port = port;
+        }
 
         @Override
         public void run() {
             try {
                 serverSocket = ServerSocketFactory.getDefault().createServerSocket();
-                serverSocket.bind(new InetSocketAddress("localhost", 8888));
+                serverSocket.bind(new InetSocketAddress("localhost", port));
 
                 while (alive) {
                     Socket socket = serverSocket.accept();
@@ -70,7 +86,10 @@ public class TesterOcspResponderNoResponse {
                     t.start();
                 }
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                // Don't print stack trace if we're shutting down (expected)
+                if (alive) {
+                    ioe.printStackTrace();
+                }
             }
         }
 

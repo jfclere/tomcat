@@ -107,6 +107,9 @@ public final class TesterSupport {
     public static final String LOCALHOST_CRL_RSA_KEY_PEM = SSL_DIR + "localhost-crl-rsa-key.pem";
     public static final String CLIENT_CRL_JKS = SSL_DIR + "user2-crl.jks";
     public static final String CLIENT_CRL_LONG_JKS = SSL_DIR + "user3-crl-long.jks";
+    public static final String LOCALHOST_MULTI_OCSP_RSA_JKS = SSL_DIR + "localhost-multi-ocsp-rsa.jks";
+    public static final String LOCALHOST_MULTI_OCSP_RSA_CERT_PEM = SSL_DIR + "localhost-multi-ocsp-rsa-cert.pem";
+    public static final String LOCALHOST_MULTI_OCSP_RSA_KEY_PEM = SSL_DIR + "localhost-multi-ocsp-rsa-key.pem";
     public static final boolean TLSV13_AVAILABLE;
 
     public static final String ROLE = "testrole";
